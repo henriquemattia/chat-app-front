@@ -61,6 +61,7 @@ export function SidebarUser({ conversation, isCollapsed}: Conversation) {
               : (
                 <Link href="#" className={cn(
                     buttonVariants({ variant: conversation.variant, size: "xl" }),
+                    "min-w-full",
                     conversation.variant === "grey" &&
                       "dark:bg-muted dark:text-white dark:hover:bg-muted dark:hover:text-white shrink",
                     "justify-start gap-4"
@@ -76,12 +77,14 @@ export function SidebarUser({ conversation, isCollapsed}: Conversation) {
                     />
                   </Avatar>
 
-                  <div className="flex flex-col max-w-28">
-                    <span>{conversation.other_user_name}</span>
+                  <div className="flex flex-col  max-w-28">
+                    <span className="flex align-top">
+                      {conversation.other_user_name}
+                    </span>
 
-                      <span className="text-zinc-300 text-xs truncate ">
-                        {conversation.last_message}
-                      </span>
+                    <span className="text-zinc-300 text-xs truncate">
+                      {conversation.last_message}
+                    </span>
 
                   </div>
 

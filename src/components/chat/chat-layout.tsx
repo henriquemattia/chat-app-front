@@ -98,10 +98,12 @@ export function ChatLayout({ defaultLayout = [320, 480], defaultCollapsed = fals
 
             return [
               <button
+              className="reset"
               key={conversation.conversation_id}
               onClick={() => console.log(conversation.conversation_id)}
+              //estilo do botao ta zoando o coisa, ver alguma forma pra resetar a estilização dele
               >
-                <SidebarUser
+              <SidebarUser
                   conversation={conversation}
                   isCollapsed={isCollapsed || isMobile} />
               </button>
