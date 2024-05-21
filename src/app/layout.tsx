@@ -1,6 +1,17 @@
 import type { Metadata } from "next";
 import { GeistSans } from 'geist/font/sans';
 import "./globals.css";
+import { CurrentChatProvider } from "@/context/currentChat";
+
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+  QueryClient,
+  QueryClientProvider,
+} from '@tanstack/react-query'
+
+const queryClient = new QueryClient()
 
 export const metadata: Metadata = {
   title: "Shadcn Chat",
@@ -20,8 +31,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={GeistSans.className}>{children}</body>
-    </html>
+    <CurrentChatProvider>
+      {/* <QueryClientProvider client={queryClient}> */}
+
+      <html lang="en">
+        <body className={GeistSans.className}>{children}</body>
+      </html>
+      {/* </QueryClientProvider> */}
+    </CurrentChatProvider>
+      
   );
 }

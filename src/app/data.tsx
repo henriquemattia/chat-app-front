@@ -87,14 +87,14 @@ export const loggedInUserData = {
 
 export type LoggedInUserData = (typeof loggedInUserData);
 
-export interface Message {
-    id: number;
-    avatar: string;
-    name: string;
-    message: string;
-}
+// export interface Message {
+//     id: number;
+//     avatar: string;
+//     name: string;
+//     message: string;
+// }
 
-export interface ChatMEssa {
+export interface Message {
     sender_id: number;
     receiver_id: number;
     message: string;
@@ -106,8 +106,8 @@ export interface ChatMEssa {
 export interface Conversations {
     conversation_id: number;
     other_user_name: string;
-    last_message: string;
-    last_message_date: string
+    last_message?: string;
+    last_message_date?: string
     avatar: string;
     variant: "grey" | "ghost";
 }

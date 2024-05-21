@@ -10,19 +10,13 @@ import {
   TooltipTrigger,
   TooltipProvider,
 } from "@/components/ui/tooltip";
-import { Message } from "@/app/data";
+import { Conversations, Message } from "@/app/data";
 import { Avatar, AvatarImage } from "./ui/avatar";
 
 interface Conversation {
   isCollapsed: boolean;
 
-  conversation: {
-    other_user_name: string;
-    last_message: string;
-    last_message_date: string
-    avatar: string;
-    variant?: "grey" | "ghost";
-  };
+  conversation: Conversations
 }
 
 export function SidebarUser({ conversation, isCollapsed}: Conversation) {
@@ -33,7 +27,7 @@ export function SidebarUser({ conversation, isCollapsed}: Conversation) {
                   <Tooltip delayDuration={0}>
 
                     <TooltipTrigger asChild>
-                      <Link href="#" className={cn( buttonVariants({ variant: conversation.variant, size: "icon" }), "h-11 w-11 md:h-16 md:w-16", conversation.variant === "grey" && "dark:bg-muted dark:text-muted-foreground dark:hover:bg-muted dark:hover:text-white" )}>
+                      <Link href="#" className={cn( buttonVariants({ variant: conversation.variant, size: "icon" }), "h-11 w-11 md:h-16 md:w-16", conversation.variant === "grey" && "bg-muted hover:bg-muted  shrink", )}>
                         <Avatar className="flex justify-center items-center">
 
                           <AvatarImage
@@ -63,7 +57,7 @@ export function SidebarUser({ conversation, isCollapsed}: Conversation) {
                     buttonVariants({ variant: conversation.variant, size: "xl" }),
                     "min-w-full",
                     conversation.variant === "grey" &&
-                      "dark:bg-muted dark:text-white dark:hover:bg-muted dark:hover:text-white shrink",
+                      "bg-muted hover:bg-muted  shrink",
                     "justify-start gap-4"
                   )}>
 
@@ -77,12 +71,14 @@ export function SidebarUser({ conversation, isCollapsed}: Conversation) {
                     />
                   </Avatar>
 
-                  <div className="flex flex-col  max-w-28">
+                  <div className="flex flex-col  max-w-24">
                     <span className="flex align-top">
                       {conversation.other_user_name}
                     </span>
 
+
                     <span className="text-zinc-300 text-xs truncate">
+                      {/* melhoria colocando um me: ou nomedosenderid:  */}
                       {conversation.last_message}
                     </span>
 

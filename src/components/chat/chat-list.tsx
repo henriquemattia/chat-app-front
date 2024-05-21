@@ -8,7 +8,7 @@ import axios from "axios";
 
 interface ChatListProps {
   messages?: Message[];
-  selectedUser: UserData;
+  authenticatedUserId: number;
   sendMessage: (newMessage: Message) => void;
   isMobile: boolean;
 }
@@ -16,7 +16,7 @@ interface ChatListProps {
 
 export function ChatList({
   messages,
-  selectedUser,
+  authenticatedUserId,
   sendMessage,
   isMobile
 }: ChatListProps) {
@@ -24,8 +24,7 @@ export function ChatList({
 
   React.useEffect(() => {
     if (messagesContainerRef.current) {
-      messagesContainerRef.current.scrollTop =
-        messagesContainerRef.current.scrollHeight;
+      messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
     }
   }, [messages]);
 
@@ -58,34 +57,40 @@ export function ChatList({
               }}
               className={cn(
                 "flex flex-col gap-2 p-4 whitespace-pre-wrap",
-                message.name !== selectedUser.name ? "items-end" : "items-start"
+                message.receiver_id !== authenticatedUserId ? "items-end" : "items-start"
               )}
             >
+
               <div className="flex gap-3 items-center">
-                {message.name === selectedUser.name && (
+
+                {message.receiver_id === authenticatedUserId && (
                   <Avatar className="flex justify-center items-center">
                     <AvatarImage
-                      src={message.avatar}
-                      alt={message.name}
+                      // src={message.avatar}
+                      // alt={message.receiver_id}
                       width={6}
                       height={6}
                     />
                   </Avatar>
                 )}
+
                 <span className=" bg-accent p-3 rounded-md max-w-xs">
                   {message.message}
                 </span>
-                {message.name !== selectedUser.name && (
+
+                {message.receiver_id !== authenticatedUserId && (
                   <Avatar className="flex justify-center items-center">
                     <AvatarImage
-                      src={message.avatar}
-                      alt={message.name}
+                      // src={message.avatar}
+                      // alt={message.name}
                       width={6}
                       height={6}
                     />
                   </Avatar>
                 )}
+
               </div>
+
             </motion.div>
           ))}
         </AnimatePresence>

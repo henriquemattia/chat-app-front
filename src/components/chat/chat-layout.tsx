@@ -12,6 +12,8 @@ import { Sidebar } from "../sidebar";
 import { Chat } from "./chat";
 import axios from "axios";
 import { SidebarUser } from "../sideBarUser";
+import { useCurrentChat } from "@/context/currentChat";
+// import { useInfiniteQuery } from "@tanstack/react-query";
 
 interface ChatLayoutProps {
   defaultLayout: number[] | undefined;
@@ -25,8 +27,23 @@ export function ChatLayout({ defaultLayout = [320, 480], defaultCollapsed = fals
   const [isMobile, setIsMobile] = useState(false);
   
   const [conversations, setConversations] = useState<Conversations[]>([]);
-  const [conversationId, setConversationId] = useState<number>();
+  // const [conversationId, setConversationId] = useState<number>();
+  const [change, setChange] = useState<number>(0);
 
+
+  const { store, setStore } = useCurrentChat()
+
+  // const {isLoading, data} = useInfiniteQuery({
+  //   queryKey: ['conversations', store],
+  //   queryFn: async () => 0,
+  //  getNextPageParam: (lastPage) => 0,
+  // initialData: { data: { data: { data: [] } } },
+
+  //   staleTime: Infinity,
+  // })
+  
+
+  // console.log(store)
 
   useEffect(() => {
     const checkScreenWidth = () => {
@@ -43,6 +60,8 @@ export function ChatLayout({ defaultLayout = [320, 480], defaultCollapsed = fals
 
     };
 
+    
+
     // Initial check
     checkScreenWidth();
 
@@ -54,6 +73,11 @@ export function ChatLayout({ defaultLayout = [320, 480], defaultCollapsed = fals
       window.removeEventListener("resize", checkScreenWidth);
     };
   }, []);
+
+  const setConversation = (conversationId: number) => {
+    setStore(conversationId)
+    setChange(change + 1)
+  }
 
 
   return (
@@ -94,14 +118,18 @@ export function ChatLayout({ defaultLayout = [320, 480], defaultCollapsed = fals
 
           {conversations.map(function (conversation) {
             conversation.avatar = '/User2.png';
-            conversation.variant = "grey";
+            conversation.variant = "ghost";
+
+            if (conversation.conversation_id === store) {
+              conversation.variant = "grey";
+            }
 
             return [
               <button
-              className="reset"
+              className="flex "
               key={conversation.conversation_id}
-              onClick={() => console.log(conversation.conversation_id)}
-              //estilo do botao ta zoando o coisa, ver alguma forma pra resetar a estilização dele
+              onClick={() => setConversation(conversation.conversation_id)}
+
               >
               <SidebarUser
                   conversation={conversation}
@@ -119,11 +147,11 @@ export function ChatLayout({ defaultLayout = [320, 480], defaultCollapsed = fals
       <ResizableHandle withHandle />
 
       <ResizablePanel defaultSize={defaultLayout[1]} minSize={30}>
-        {/* <Chat
-          messages={[]}
-          selectedUser={}
+        <Chat
+          change={change}
+          conversationId={store}
           isMobile={isMobile}
-        /> */}
+        />
       </ResizablePanel>
 
     </ResizablePanelGroup>
